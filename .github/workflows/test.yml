@@ -1,0 +1,19 @@
+name: test-pipeline
+on: push
+jobs:
+    testing-pipeline:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout repository
+          uses: actions/checkout@v2
+
+        - name: install node
+          uses: actions/setup-node
+          with:
+            node-version: '20'
+        
+        - name: install dependencies
+          uses: npm ci
+
+        - name: run tests
+          uses: npm test
