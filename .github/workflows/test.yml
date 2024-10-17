@@ -1,4 +1,4 @@
-name: test-pipeline
+name: testing-and-deployment-pipeline
 on: push
 jobs:
     testing-pipeline:
@@ -17,3 +17,24 @@ jobs:
 
         - name: run tests
           run: npm test
+
+    deployment-pipeline:
+        needs: testing-pipeline
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout repository
+              uses: actions/checkout@v2
+    
+            - name: install node
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+            
+            - name: install dependencies
+              run: npm ci
+            
+            - name: build
+              run: npm run build
+
+            - name: deploy
+              run: echo "Deploying..."
